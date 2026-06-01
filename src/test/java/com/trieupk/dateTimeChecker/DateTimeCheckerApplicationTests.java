@@ -1,10 +1,10 @@
-package com.trieupk.calculator;
+package com.trieupk.dateTimeChecker;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class CalculatorApplicationTests {
+class DateTimeCheckerApplicationTests {
 
 	@Test
 	void contextLoads() {

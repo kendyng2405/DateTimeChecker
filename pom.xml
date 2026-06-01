@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.trieupk</groupId>
-	<artifactId>calculator</artifactId>
+	<artifactId>dateTimeChecker</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>calculator</name>
+	<name>dateTimeChecker</name>
 	<description/>
 	<url/>
 	<licenses>

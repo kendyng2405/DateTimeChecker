@@ -1,4 +1,4 @@
-package com.trieupk.calculator;
+package com.trieupk.dateTimeChecker;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
