@@ -33,7 +33,7 @@ jobs:
     - name: Log in to Docker Hub
       uses: docker/login-action@v3
       with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        username: johnpham666
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
     - name: Build and Push Docker Image
@@ -42,5 +42,5 @@ jobs:
         context: .
         push: true
         tags: |
-          ${{ secrets.DOCKERHUB_USERNAME }}/datetimechecker:latest
-          ${{ secrets.DOCKERHUB_USERNAME }}/datetimechecker:${{ github.sha }}
+          johnpham666/datetimechecker:latest
+          johnpham666/datetimechecker:${{ github.sha }}
