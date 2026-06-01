@@ -187,3 +187,5 @@ If any test fails, the pipeline will fail and you'll see it on the GitHub Action
 ## 📄 License
 
 This project is for educational purposes.
+
+CI/CD demo update
