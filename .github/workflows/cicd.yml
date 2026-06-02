@@ -7,40 +7,49 @@ on:
     branches: [ "main" ]
 
 jobs:
-  # ===== Job 1: Build & Test =====
+  # ===== Job 1: Build & Test Java Project =====
   build-and-test:
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v4
+      - name: Checkout source code
+        uses: actions/checkout@v4
 
-    - name: Set up JDK 21
-      uses: actions/setup-java@v4
-      with:
-        java-version: '21'
-        distribution: 'temurin'
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
 
-    - name: Build and Test with Maven
-      run: mvn clean test
+      - name: Make Maven Wrapper executable
+        run: chmod +x mvnw
+
+      - name: Build and Test with Maven
+        run: ./mvnw clean test
 
   # ===== Job 2: Build & Push Docker Image =====
   docker-build-and-push:
     runs-on: ubuntu-latest
     needs: build-and-test
+
+    # Only push Docker image when code is pushed to main branch
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
     steps:
-    - uses: actions/checkout@v4
+      - name: Checkout source code
+        uses: actions/checkout@v4
 
-    - name: Log in to Docker Hub
-      uses: docker/login-action@v3
-      with:
-        username: johnpham666
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: kendynguyen24
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: Build and Push Docker Image
-      uses: docker/build-push-action@v6
-      with:
-        context: .
-        push: true
-        tags: |
-          johnpham666/datetimechecker:latest
-          johnpham666/datetimechecker:${{ github.sha }}
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            kendynguyen24/datetimechecker:latest
+            kendynguyen24/datetimechecker:${{ github.sha }}
