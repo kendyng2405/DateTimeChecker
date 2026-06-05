@@ -1,4 +1,4 @@
-name: Java CI/CD with Maven & Docker
+name: Java CI/CD with Maven
 
 on:
   push:
@@ -7,7 +7,6 @@ on:
     branches: [ "main" ]
 
 jobs:
-  # ===== Job 1: Build & Test Java Project =====
   build-and-test:
     runs-on: ubuntu-latest
 
@@ -20,36 +19,19 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
+          cache: maven
 
       - name: Make Maven Wrapper executable
         run: chmod +x mvnw
 
-      - name: Build and Test with Maven
+      - name: Run unit tests
         run: ./mvnw clean test
 
-  # ===== Job 2: Build & Push Docker Image =====
-  docker-build-and-push:
-    runs-on: ubuntu-latest
-    needs: build-and-test
+      - name: Build WAR file
+        run: ./mvnw clean package -DskipTests
 
-    # Only push Docker image when code is pushed to main branch
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-
-    steps:
-      - name: Checkout source code
-        uses: actions/checkout@v4
-
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v3
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
         with:
-          username: kendynguyen24
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Build and Push Docker Image
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          push: true
-          tags: |
-            kendynguyen24/datetimechecker:latest
-            kendynguyen24/datetimechecker:${{ github.sha }}
+          name: datetimechecker-war
+          path: target/*.war
